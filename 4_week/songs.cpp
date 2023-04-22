@@ -22,6 +22,8 @@ int remaining_minutes;
 int remaining_seconds;
 int counter = 1;
 
+
+//Program logic
 // read in the file
 ifstream inData;
 inData.open("songs.txt", ios::in);
@@ -100,7 +102,6 @@ if (inData.is_open()) {
         endl;
 
 }
-//Program logic
 
 return 0;
 }
