@@ -1,0 +1,10 @@
+Weems 50 60
+Dale 51 60
+Richards 57 60
+Smith 36 60
+Tomlin 44 60
+Bird 45 60
+Weaver 55 60
+Bird 46 60
+Lance 37 60
+Bosson 25 60
