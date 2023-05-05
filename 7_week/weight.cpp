@@ -9,10 +9,11 @@
 using namespace std;
 //Global declarations: Constants and type definitions only -- no variables
 enum planets {Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto};
+
 //Function prototypes
 string GetUserInput();
 planets ConvertInputToPlanetType(string planet);
-string OutputWeight(planets planet, string weight);
+float OutputWeight(planets planet, string weight);
 
 
 int main()
@@ -26,36 +27,64 @@ string weight = "";
 bool space_found = false;
 string user_input;
 planets planet_converted;
-string output;
+double weight_calculated;
 
-//Program logic
+// Program logic
 
+// Give instructions to the user
+cout << "Hello this program will calculate your weight on one of the following planets" << endl;
+cout << "Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Uranus, Neptune or Pluto" << endl;
+
+// A loop that will repeat until user enters valid info
 while (true) {
+    // Prompt User for weight and planet
     user_input = GetUserInput();
-    cout << user_input.length() << endl;
 
-
-
+    // Process the input string by splitting
+    // the string into two variables of 'weight'
+    // and 'planet' by finding the space
+    weight = "";
+    planet = "";
+    space_found = false;
     for (int i=0; i < user_input.length(); i++) {
 
+        // when the space is found flip the variable
         if (user_input[i] == ' ') {
             space_found = true;
-        } else if (space_found == false) {
+        }
+
+        // check if the space has been found
+        else if (space_found == false) {
             weight += user_input[i];
         } else {
             planet += user_input[i];
         }
     }
 
+    // use a try catch block to convert planet string to enum
+    // if an error is thrown continue onto the next loop iteration
     try {
         planet_converted = ConvertInputToPlanetType(planet);
-    } catch (const invalid_argument& e) {
-        cout << "ERROR: Please enter your weight followed by valid planet name" << endl;
+    } catch (invalid_argument& e) {
+        cout << "ERROR: Please enter a valid planet" << endl;
         continue;
     }
 
-    cout << planet_converted << "  planet_converted" << endl;
-    output = OutputWeight(planet_converted, weight);
+    // use a try catch block to calculate the user's weight
+    // if invalid weight was entered throw an error
+    // then continue to next loop iteration
+    try {
+        weight_calculated = OutputWeight(planet_converted, weight);
+    } catch(invalid_argument& e) {
+        cout << "ERROR: please enter a valid weight" << endl;
+        continue;
+    }
+
+    // Give the user the output of their computed weight
+    cout << "Your weight would be " << weight_calculated << endl;
+
+    // break out of the infinite loop
+    break;
 }
 
 
@@ -64,14 +93,20 @@ return 0;
 
 //Function definitions
 string GetUserInput() {
+    // ask user for input
     cout << "Please enter your Weight and Planet: ";
+
+    // create a char array and read the cin into the array then return the input
     char user_input[100];
     cin.getline(user_input, 100);
-    cout << user_input << endl;
+
     return user_input;
 }
 
 planets ConvertInputToPlanetType(string planet)  {
+    // take the string of the planet and convert to enum variable
+    // else throw an error if the planet does not match
+    // then return the enum value
     planets planet_enum;
     if (planet=="Mercury") {
         planet_enum = Mercury;
@@ -80,7 +115,6 @@ planets ConvertInputToPlanetType(string planet)  {
     } else if (planet=="Earth") {
         planet_enum = Earth;
     } else if (planet=="Moon") {
-        cout << "Moonyyyyy" << endl;
         planet_enum = Moon;
     } else if (planet=="Mars") {
         planet_enum = Mars;
@@ -95,37 +129,36 @@ planets ConvertInputToPlanetType(string planet)  {
     } else if (planet=="Pluto") {
         planet_enum = Pluto;
     } else {
-        throw invalid_argument("Did not type correct planet name");
+        throw invalid_argument("Not a valid planet");
     }
     return planet_enum;
 }
 
 
-string OutputWeight(planets planet, string weight) {
+float OutputWeight(planets planet_e, string weight) {
+    // take the weight string and convert to an int
+    // then use a switch to return the calculated weight
     int weight_converted = stoi(weight);
-    double conversion = 0;
-    switch(planet) {
+    switch(planet_e) {
         case Mercury:
-            conversion = 0.4155;
+            return weight_converted * 0.4155;
         case Venus:
-            conversion = 0.8975;
+            return weight_converted * 0.8975;
         case Earth:
-            conversion = 1.0;
+            return weight_converted * 1.0;
         case Moon:
-            conversion = 0.166;
+            return weight_converted * 0.166;
         case Mars:
-            conversion = 0.3507;
+            return weight_converted * 0.3507;
         case Jupiter:
-            conversion = 2.5374;
+            return weight_converted * 2.5374;
         case Saturn:
-            conversion = 1.0677;
+            return weight_converted * 1.0677;
         case Uranus:
-            conversion = 0.8947;
+            return weight_converted * 0.8947;
         case Neptune:
-            conversion = 1.1794;
+            return weight_converted * 1.1794;
         case Pluto:
-            conversion = 0.0899;
-        default:
-            return " ";
+            return weight_converted * 0.0899;
     }
 }
